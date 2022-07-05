@@ -1,34 +1,22 @@
-version: '3.8'
+version: "3.8"
 services:
-  django:
+  app:
     build: .
     volumes:
-      - .:/app
+      - .:/django
     ports:
       - 8000:8000
-    image: django:mine
+    image: app:django
     container_name: django_container
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
-      - db
-    links:
-      - db:db
-    networks:
-       - djangonetwork
- 
+      - db 
   db:
-    image: postgres:13.4-alpine
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    container_name: postgres_db
-    networks:
-      - djangonetwork
-  
-
-networks:
-     djangonetwork:
-         driver: bridge
+     image: postgres
+     volumes:
+       - ./data/db:/var/lib/postgresql/data
+     environment:
+       - POSTGRES_DB=postgres
+       - POSTGRES_USER=postgres
+       - POSTGRES_PASSWORD=postgres
+     container_name: postgres_db
