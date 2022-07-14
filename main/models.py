@@ -40,7 +40,10 @@ class Follow(models.Model):
     def follow_yourself(sender,instance,created,**kwargs):
         if created:
             Follow.objects.create(follower=instance,following=instance)
-        
+    class Meta:
+        unique_together = (
+            ('follower', 'following'),
+        )    
 
    
 
@@ -64,6 +67,14 @@ class Stream(models.Model):
             for post in posts:
                 Stream.objects.create(post=post,following=following,date=post.posted,user=follower)
 
+    def delete_stream_by_follow(sender,instance,**kwargs):
+        follow = instance
+        follower = follow.follower
+        following = follow.following
+        posts = Post.objects.filter(owner=following)
+        for post in posts:
+                Stream.objects.filter(post=post,following=following,date=post.posted,user=follower).delete()
+
     def add_stream_by_post(sender,instance,created,**kwargs):
         post = instance
         user = post.owner
@@ -71,6 +82,14 @@ class Stream(models.Model):
         if created:
             for follower in followers:
                 Stream.objects.create(post=post,following=user,date=post.posted,user=follower.follower)
+
+    def delete_stream_by_post(sender,instance,**kwargs):
+        post = instance
+        user = post.owner
+        followers = Follow.objects.filter(following=user)
+        for follower in followers:
+            Stream.objects.filter(post=post,following=user,date=post.posted,user=follower.follower).delete()
+    
 
     def update_stream(sender,instance,created,**kwargs):
         post = instance
@@ -83,9 +102,14 @@ class Stream(models.Model):
             
 
 
-
+#POST SIGNALS
 post_save.connect(Stream.add_stream_by_post,sender=Post)
+post_delete.connect(Stream.delete_stream_by_post,sender=Post)
 post_save.connect(Stream.update_stream,sender=Post)
-post_save.connect(Stream.add_stream_by_follow,sender=Follow)
 
+#FOLLOW SIGNALS
+post_save.connect(Stream.add_stream_by_follow,sender=Follow)
+post_delete.connect(Stream.delete_stream_by_follow,sender=Follow)
+
+#USER SIGNALS
 post_save.connect(Follow.follow_yourself,sender=User)
