@@ -12,9 +12,10 @@ class Post(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User,on_delete = models.CASCADE)
     description = models.CharField(max_length=150,blank=False)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.description)
+        return str(f"This is a post by {self.owner} having {self.likes} likes")
 
 
 class Follow(models.Model):
@@ -34,7 +35,7 @@ class Follow(models.Model):
 
 class Stream(models.Model):
     following = models.ForeignKey(User,on_delete=models.CASCADE,related_name="following_stream")
-    follower = models.ForeignKey(User,on_delete=models.CASCADE,related_name="followed_user")
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="followed_user")
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     date = models.DateTimeField()
 
@@ -46,7 +47,7 @@ class Stream(models.Model):
             for follower in followers:
                 Stream.objects.create(post=post,following=user,date=post.posted,user=follower.follower)
 
-    def update_stream(sender,instance,created,deleted,**kwargs):
+    def update_stream(sender,instance,created,**kwargs):
         post = instance
         user = post.owner
         followers = Follow.objects.filter(following=user)

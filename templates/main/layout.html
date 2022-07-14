@@ -20,13 +20,17 @@
     <!-- navigation -->
     <nav class="navbar">
       <div class="nav-wrapper">
-        <img class="brand-img" src="{% static 'images/logo.png' %}" />
+          <a href="{%url 'main' %}">
+            <img class="brand-img" src="{% static 'images/logo.png' %}" />
+          </a>
+        
+
         <form class="search-form">
           <input type="text" class="search-box" placeholder="search.." />
         </form>
         <div class="nav-items">
-          <i class="icon fas fa-home"></i>
-          <i class="icon fas fa-plus"></i>
+          <a href="{%url 'main' %}"><i class="icon fas fa-home"></i></a>
+          <a href="{%url 'new_post'  request.user  %}"><i class="icon fas fa-plus"></i></a>
           <i class="icon fas fa-heart"></i>
           <div class="icon user-profile">
             <i class="fas fa-user"></i>
