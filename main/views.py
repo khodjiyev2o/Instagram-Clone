@@ -6,7 +6,6 @@ from .forms import PostForm
 # Create your views here.
 def main(request):
     user = request.user
-   
     streams = Stream.objects.filter(user=user).select_related('post','following')
     friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
     ids = []
@@ -27,3 +26,18 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(PostCreateView, self).form_valid(form)
+
+
+def profile(request,pk):
+    user = request.user
+    posts_count = user.post_set.all().count()
+    posts = Post.objects.filter(owner=user)
+    follows_count = Follow.objects.filter(following=user).count()
+    following_count = Follow.objects.filter(follower=user).count()
+    context = {
+        'follows_count':follows_count,
+        'following_count':following_count,
+        'posts_count':posts_count,
+        'posts':posts,
+    }
+    return render(request,'main/profile.html',{'context':context})

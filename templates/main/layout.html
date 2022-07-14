@@ -30,10 +30,10 @@
         </form>
         <div class="nav-items">
           <a href="{%url 'main' %}"><i class="icon fas fa-home"></i></a>
-          <a href="{%url 'new_post'  request.user  %}"><i class="icon fas fa-plus"></i></a>
+          <a href="{%url 'new_post'  request.user.id  %}"><i class="icon fas fa-plus"></i></a>
           <i class="icon fas fa-heart"></i>
           <div class="icon user-profile">
-            <i class="fas fa-user"></i>
+            <a href="{%url 'profile'  request.user.id  %}"> <i class="fas fa-user"></i></a>
           </div>
         </div>
       </div>
