@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
   email = models.EmailField(_('email address'), unique = True)
   first_name = models.CharField(max_length = 5,blank = True, null = True)
   last_name = models.CharField(max_length = 5,blank = True, null = True)
-  
+  bio = models.CharField(max_length=200,blank = True, null = True)
   phone = models.CharField(max_length = 10,blank = True, null = True)
   image = models.ImageField(upload_to='user_ava',blank = True, null = True)
   is_admin = models.BooleanField(default=False)

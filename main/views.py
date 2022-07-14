@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.urls import reverse
 from .models import Stream,Follow,Post
 from users.models import User
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from .forms import PostForm
+from .forms import PostForm,ProfileForm
 # Create your views here.
 def main(request):
     user = request.user
@@ -41,3 +42,16 @@ def profile(request,pk):
         'posts':posts,
     }
     return render(request,'main/profile.html',{'context':context})
+
+
+class ProfileUpdateView(UpdateView):
+    model = User
+    template_name = 'main/edit_profile.html'
+   
+    form_class = ProfileForm
+    def get_success_url(self, **kwargs):
+    # obj = form.instance or self.object
+        return reverse("profile", kwargs={'pk': self.object.id})
+    
+    
+   
