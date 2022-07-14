@@ -16,6 +16,8 @@ body {
   padding-top: 40px;
 }
 
+html { overflow-y: scroll; overflow-x:hidden; }
+body { position: absolute; }
 *:focus {
   outline: none;
 }

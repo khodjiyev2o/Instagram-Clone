@@ -56,7 +56,7 @@ class User(AbstractBaseUser):
   USERNAME_FIELD = 'username'
   REQUIRED_FIELDS = ['email', 'password']
   def __str__(self):
-      return "{}".format(self.email)
+      return "{}".format(self.username)
   def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always

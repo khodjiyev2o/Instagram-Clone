@@ -8,36 +8,43 @@
       <div class="wrapper">
         <div class="left-col">
           <!---STATUS-->
-
+          
           <div class="status-wrapper">
+            {%for friend in friends%}
+            {%if friend.following == request.user%}
             <div class="status-card">
               <div class="profile-pic">
-                <img src="{% static 'images/profile.jpg' %}" alt="" />
+                <img src="{{friend.following.image.url}}" alt="" />
               </div>
-              <p class="username">username</p>
+              <p class="username">You</p>
             </div>
 
+            {%else%}
             <div class="status-card">
               <div class="profile-pic">
-                <img src="{% static 'images/profile.jpg' %}" alt="" />
+                <img src="{{friend.following.image.url}}" alt="" />
               </div>
-              <p class="username">username</p>
+              <p class="username">{{friend.following}}</p>
             </div>
+            {%endif%}
+            {%endfor%}
+            
           </div>
 
           <!--POST-->
-
+         {%for stream in streams%}
           <div class="post">
+          
             <div class="info">
               <div class="user">
                 <div class="profile-pic">
-                  <img src="{% static 'images/profile.jpg' %}" alt="" />
+                  <img src="{{stream.following.image.url}}" alt="" />
                 </div>
-                <p class="username">username</p>
+                <p class="username">{{stream.following}}</p>
               </div>
               <i class="fas fa-ellipsis-h options"></i>
             </div>
-            <img src="{% static 'images/1.jpg' %}" class="post-image" />
+            <img src="{{stream.post.image.url}}" class="post-image" />
             <div class="post-content">
               <div class="reaction-wrapper">
                 <i class="icon fas fa-heart"></i>
@@ -45,7 +52,7 @@
               </div>
               <p class="likes">2,154 likes</p>
               <p class="description">
-                <span>username</span> this is a post by username
+                <span>{{stream.following}}</span> {{stream.post.description}}
               </p>
               <p class="post-time">2021/12/08</p>
             </div>
@@ -60,17 +67,20 @@
               <button class="comment-btn">post</button>
             </div>
           </div>
+         
         </div>
+        {%endfor%}
+
         <div class="right-col">
           <!--Profile-Card-->
-
+          
           <div class="profile-card">
             <div class="profile-pic">
-              <img src="{% static 'images/profile.jpg' %}" alt="" />
+              <img src="{{request.user.image.url}}" alt="" />
             </div>
             <div>
-              <p class="username">username</p>
-              <p class="sub-text">sub-text</p>
+              <p class="username">{{request.user}}</p>
+              <p class="sub-text">{{request.user.email}}</p>
             </div>
             <button class="logout-btn">logout</button>
           </div>
@@ -78,17 +88,18 @@
           <!--Suggestion-Card-->
 
           <p class="suggestion-text">Suggestions For you</p>
-
+          {%for suggestion in suggestions%}
           <div class="suggestion-card">
             <div class="suggestion-pic">
-              <img src="{% static 'images/2.jpg' %}" alt="" />
+              <img src={{suggestion.image.url}} alt="" />
             </div>
             <div>
-              <p class="username">username</p>
-              <p class="sub-text">sub-text</p>
+              <p class="username">{{suggestion.username}}</p>
+              <p class="sub-text">{{suggestion.email}}</p>
             </div>
             <button class="follow-btn">follow</button>
           </div>
+          {%endfor%}
         </div>
       </div>
     </section>

@@ -2,7 +2,7 @@ from distutils.command.upload import upload
 from django.db import models
 from users.models import User
 import uuid
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete,pre_delete
 # Create your models here.
 
 
@@ -24,9 +24,17 @@ class Follow(models.Model):
     def __str__(self):
         return str(f"{self.follower}  started following {self.following}")
 
+    def follow_yourself(sender,instance,created,**kwargs):
+        if created:
+            Follow.objects.create(follower=instance,following=instance)
+        
+
+   
+
+
 class Stream(models.Model):
     following = models.ForeignKey(User,on_delete=models.CASCADE,related_name="following_stream")
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="followed_user")
+    follower = models.ForeignKey(User,on_delete=models.CASCADE,related_name="followed_user")
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     date = models.DateTimeField()
 
@@ -38,13 +46,20 @@ class Stream(models.Model):
             for follower in followers:
                 Stream.objects.create(post=post,following=user,date=post.posted,user=follower.follower)
 
-    def update_stream(sender,instance,created,**kwargs):
+    def update_stream(sender,instance,created,deleted,**kwargs):
         post = instance
         user = post.owner
         followers = Follow.objects.filter(following=user)
         if not created:
             for follower in followers:
                 Stream.objects.update(post=post,following=user,date=post.posted,user=follower.follower)
+       
+            
+
+
 
 post_save.connect(Stream.add_stream,sender=Post)
 post_save.connect(Stream.update_stream,sender=Post)
+
+
+post_save.connect(Follow.follow_yourself,sender=User)
