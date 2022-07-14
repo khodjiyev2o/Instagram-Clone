@@ -1,5 +1,6 @@
 from asyncio.windows_events import NULL
 from distutils.command.upload import upload
+from this import d
 from django.db import models
 from users.models import User
 import uuid
@@ -19,16 +20,31 @@ class Post(models.Model):
     def __str__(self):
         return str(f"This is a post by {self.owner} having {self.likes}     likes")
 
+    def add_like(sender,instance,created,**kwargs):
+        obj = instance
+        post = instance.post
+        if created:
+            liked_post = Post.objects.get(id=post.id)
+            liked_post.likes+=1
+            liked_post.save()
+            
+            
 
 class Likes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_likes")
+    
+
+    def __str__(self):
+        return self.count
 
     class Meta:
         unique_together = (
             ('user', 'post'),
         )
      
+   
+
 
 class Follow(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE,related_name="follower")
@@ -90,22 +106,28 @@ class Stream(models.Model):
         for follower in followers:
             Stream.objects.filter(post=post,following=user,date=post.posted,user=follower.follower).delete()
     
-
+"""
     def update_stream(sender,instance,created,**kwargs):
-        post = instance
-        user = post.owner
-        followers = Follow.objects.filter(following=user)
+        follow = instance
+        follower = follow.follower
+        following = follow.following
+        posts = Post.objects.filter(owner=following)
         if not created:
-            for follower in followers:
-                Stream.objects.update(post=post,following=user,date=post.posted,user=follower.follower)
-       
+            for post in posts:
+                stream_object = Stream.objects.filter(post=post,following=following,date=post.posted,user=follower.follower)
+                try:
+                    stream_object.update()
+                except Stream.DoesNotExist:
+                     Stream.objects.create(post=post,following=following,date=post.posted,user=follower)"""
+
+                
             
 
 
 #POST SIGNALS
 post_save.connect(Stream.add_stream_by_post,sender=Post)
 post_delete.connect(Stream.delete_stream_by_post,sender=Post)
-post_save.connect(Stream.update_stream,sender=Post)
+#post_save.connect(Stream.update_stream,sender=Follow)
 
 #FOLLOW SIGNALS
 post_save.connect(Stream.add_stream_by_follow,sender=Follow)
@@ -113,3 +135,7 @@ post_delete.connect(Stream.delete_stream_by_follow,sender=Follow)
 
 #USER SIGNALS
 post_save.connect(Follow.follow_yourself,sender=User)
+
+
+#Like SIGNALS
+post_save.connect(Post.add_like,sender=Likes)
