@@ -14,7 +14,11 @@
             {%if friend.following == request.user%}
             <div class="status-card">
               <div class="profile-pic">
+                {%if friend.following.image%}
                 <img src="{{friend.following.image.url}}" alt="" />
+                {%else%}
+                <img src="{%static url 'images/empty_user.jpg' %}" alt="" />
+                {%endif%}
               </div>
               <p class="username">You</p>
             </div>
@@ -38,7 +42,11 @@
             <div class="info">
               <div class="user">
                 <div class="profile-pic">
-                  <img src="{{stream.following.image.url}}" alt="" />
+                  {%if friend.following.image%}
+                <img src="{{friend.following.image.url}}" alt="" />
+                {%else%}
+                <img src="{%static 'images/empty_user.jpg''%}" alt="" />
+                {%endif%}
                 </div>
                 <p class="username">{{stream.following}}</p>
               </div>
@@ -58,7 +66,12 @@
             </div>
 
             <div class="comment-wrapper">
-              <img src="{% static 'images/profile.jpg' %}" class="icon" />
+              {%if request.user.image%}
+                <img src="{{request.user.image.url}}" alt="" class="icon" />
+                {%else%}
+                <img src="{%static 'images/empty_user.jpg''%}" alt="" class="icon" />
+                {%endif%}
+              
               <input
                 type="text"
                 class="comment-box"
@@ -76,7 +89,11 @@
           
           <div class="profile-card">
             <div class="profile-pic">
+              {%if request.user.image%}
               <img src="{{request.user.image.url}}" alt="" />
+              {%else%}
+              <img src="{%static 'images/empty_user.jpg''%}" alt="" />
+              {%endif%}
             </div>
             <div>
               <p class="username">{{request.user}}</p>
@@ -91,7 +108,11 @@
           {%for suggestion in suggestions%}
           <div class="suggestion-card">
             <div class="suggestion-pic">
-              <img src={{suggestion.image.url}} alt="" />
+              {%if suggestion.image%}
+              <img src="{{suggestion.image.url}}" alt="" />
+              {%else%}
+              <img src="{%static 'images/empty_user.jpg'%}" alt="" />
+              {%endif%}
             </div>
             <div>
               <p class="username">{{suggestion.username}}</p>
