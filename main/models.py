@@ -10,7 +10,6 @@ from django.db.models.signals import post_save, post_delete,pre_delete
 
 
 class Post(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     image = models.ImageField(upload_to='posts',blank = True, null = True)
     posted = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User,on_delete = models.CASCADE)
@@ -36,7 +35,7 @@ class Likes(models.Model):
     
 
     def __str__(self):
-        return self.count
+        return str(f"{self.user} liked this {self.post} post")
 
     class Meta:
         unique_together = (
