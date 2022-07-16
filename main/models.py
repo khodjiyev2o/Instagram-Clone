@@ -14,7 +14,7 @@ class Post(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User,on_delete = models.CASCADE)
     description = models.CharField(max_length=150,blank=False)
-    likers = models.ManyToManyField(User,blank=True,related_name='likers')
+    likers = models.ManyToManyField(User,blank=True,related_name='likers',null=True)
 
     def __str__(self):
         return str(f"This is a post by {self.owner} having {self.likes}     likes")

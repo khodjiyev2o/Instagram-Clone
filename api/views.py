@@ -45,19 +45,19 @@ class PostUpdateApiView(generics.UpdateAPIView):
         data = request.data
         id = data['id']
         color = data['color']
-        user = data['user']
+        userid = data['user']
 
         post = Post.objects.get(id=id)
 
-        user = User.objects.get(id=id)
+        user = User.objects.get(id=userid)
 
         
 
         if color == "red":
             post.likers.add(user)
             post.save()
-        elif color != "red":
-            post.likers.remove(user)
+        else:
+            post.likers.remove(user.id)
             post.save()
         
 

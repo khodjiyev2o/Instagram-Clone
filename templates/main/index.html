@@ -61,7 +61,7 @@
             <img src="{{stream.post.image.url}}" class="post-image" />
             <div class="post-content">
               <div class="reaction-wrapper">
-                <i class="icon fas fa-heart" {%if request.user in stream.post.likers.values%} style="color: red;"{%endif%} id="like_button" data-id="{{stream.post.id}}" onclick="likeFunction()"></i>
+                <i class="icon fas fa-heart " {%if request.user in stream.post.likers.all%} style="color: red;"{%endif%} id="like-button" data-id="{{stream.post.id}}" ></i>
                 <i class="icon fas fa-comment"></i>
               </div>
               <p class="likes">{{stream.post.likes}} likes</p>
@@ -135,16 +135,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
     <script>
       //changing like button accordingly to red or none
-      function likeFunction() {
-      var x = document.getElementById("like_button");
-      if (x.style.color === "red") {
-        x.style.color = "";
-        
-      } else {
-        x.style.color = "red";
+      const likeButtons = document.querySelectorAll("#like-button");
 
-      }
+      likeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.style.color != 'red'){
+          button.style.color = 'red'
         }
+        else{
+          button.style.color = ''
+        };
+
+        });
+      });
 
         //getting liked or disliked info from post
         var likes = document.getElementsByClassName('icon fas fa-heart')

@@ -7,13 +7,9 @@ from .forms import PostForm,ProfileForm
 # Create your views here.
 def main(request):
     user = request.user
-    streams = Stream.objects.filter(user=user).select_related('post','following')
+    streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers')
     friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
-    all_objs = []
-    for stream in streams:
-        objs = stream.post.likers.values()
-        all_objs.append(objs)
-    print(all_objs)
+    
     ids = []
     for friend in friends:
         id = friend.following.id
