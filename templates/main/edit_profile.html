@@ -10,7 +10,11 @@
           <form action="" method="POST" enctype="multipart/form-data">
             {%csrf_token%}
             <div class="mb-3">
-              <img id="image"  class="edit-profile-image" src="{{request.user.image.url}}"/>
+              {%if follows.following.image%}
+              <img src="{{follows.following.image.url}}" alt="" />
+              {%else%}
+              <img src="{%static 'images/empty_user.jpg''%}" alt="" />
+            {%endif%}
               {{form.image}}
             </div>
             <div class="mb-3">

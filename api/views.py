@@ -2,9 +2,9 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from users.models import User
-from main.models import Post
+from main.models import Post,Follow
 
-from .serializers import UserSerializer,PostSerializer
+from .serializers import UserSerializer,PostSerializer,FollowSerializer
 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView
@@ -14,11 +14,25 @@ from rest_framework import generics, authentication
 
 
 
+
+
+
+
+
 @api_view(['GET'])
 def usersapi(request):
     queryest = User.objects.all()
     serializer = UserSerializer(queryest,many=True)
     return Response(serializer.data)
+
+
+
+
+class FollowCreateApiView(generics.CreateAPIView):
+    queryset =  Follow.objects.all()
+    serializer_class = FollowSerializer
+
+
 
 
 class PostCreateApiView(generics.CreateAPIView):

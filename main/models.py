@@ -23,7 +23,7 @@ class Post(models.Model):
         return self.likers.count()
         
             
-            
+    
 
     
 

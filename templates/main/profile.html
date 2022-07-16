@@ -6,18 +6,26 @@
       <div class="profile-container">
         <div class="profile">
           <div class="profile-image">
-            <img src="{{request.user.image.url}}" alt="" />
+            {%if context.user.image%}
+            <img src="{{context.user.image.url}}" alt="" />
+            {%else%}
+            <img src="{%static 'images/empty_user.jpg''%}" alt="" />
+            {%endif%}
           </div>
+          
           <div class="profile-user-settings">
-            <h1 class="profile-user-name">{{request.user}}</h1>
-            <a href="{%url 'edit_profile' request.user.id %}" style="text-decoration:none" class="profile-btn profile-edit-btn">Edit Profile</a>
+            <h1 class="profile-user-name">{{context.user.username}}</h1>
+            {%if request.user.id == context.user.id %}
+            <a href="{%url 'edit_profile' user.id %}" style="text-decoration:none" class="profile-btn profile-edit-btn">Edit Profile</a>
             <button
               class="profile-btn profile-settings-btn"
               aria-label="profile settings"
             >
               <i class="fas fa-cog"></i>
             </button>
+            {%endif%}
           </div>
+         
           <div class="profile-stats">
             <ul>
               <li><span class="profile-stat-count">{{context.posts_count}}</span> posts</li>
@@ -26,9 +34,12 @@
             </ul>
           </div>
           <div class="profile-bio">
+            {%if context.user.bio%}
             <p>
-              <span class="profile-real-name">BIO : </span> {{request.user.bio}}
+              <span class="profile-real-name">BIO : </span> {{context.user.bio}}
             </p>
+            {%endif%}
+
           </div>
         </div>
       </div>

@@ -136,11 +136,12 @@
     <script>
       //changing like button accordingly to red or none
       const likeButtons = document.querySelectorAll("#like-button");
-
+   
       likeButtons.forEach((button) => {
       button.addEventListener("click", () => {
         if (button.style.color != 'red'){
           button.style.color = 'red'
+          
         }
         else{
           button.style.color = ''

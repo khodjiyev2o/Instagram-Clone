@@ -1,3 +1,4 @@
+from select import select
 from django.shortcuts import render
 from django.urls import reverse
 from .models import Stream,Follow,Post
@@ -7,7 +8,7 @@ from .forms import PostForm,ProfileForm
 # Create your views here.
 def main(request):
     user = request.user
-    streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers')
+    streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers').order_by('-date')
     friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
     
     ids = []
@@ -31,15 +32,18 @@ class PostCreateView(CreateView):
 
 
 def profile(request,pk):
-    user = request.user
+    user = User.objects.get(id=pk)
+    posts = Post.objects.filter(owner=user)
     posts_count = user.post_set.all().count()
     posts = Post.objects.filter(owner=user)
     follows_count = Follow.objects.filter(following=user).count()
     following_count = Follow.objects.filter(follower=user).count()
+   
     context = {
-        'follows_count':follows_count,
-        'following_count':following_count,
         'posts_count':posts_count,
+        'following_count':following_count,
+        'follows_count':follows_count,
+        'user':user,
         'posts':posts,
     }
     return render(request,'main/profile.html',{'context':context})
