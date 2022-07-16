@@ -54,7 +54,9 @@
                 <img src="{%static 'images/empty_user.jpg'%}" alt="" />
                 {%endif%}
                 </div>
+                <a href="{%url 'profile' stream.following.id %}">
                 <p class="username">{{stream.following}}</p>
+                  </a>
               </div>
               <i class="fas fa-ellipsis-h options"></i>
             </div>
@@ -102,9 +104,13 @@
               {%endif%}
             </div>
             <div>
+              <a href="{%url 'profile' request.user.id %}">
               <p class="username">{{request.user}}</p>
+            
               <p class="sub-text">{{request.user.email}}</p>
             </div>
+
+            </a>
             <button class="logout-btn">logout</button>
           </div>
 
@@ -121,8 +127,10 @@
               {%endif%}
             </div>
             <div>
+              <a href="{%url 'profile' suggestion.id %}">
               <p class="username">{{suggestion.username}}</p>
               <p class="sub-text">{{suggestion.email}}</p>
+            </a>
             </div>
             <button class="follow-btn">follow</button>
           </div>

@@ -45,7 +45,11 @@
 
           <div class="profile-card">
             <div class="profile-pic">
-              <img src="assets/images/profile.jpg" alt="" />
+              {%if follows.following.image%}
+              <img src="{{follows.following.image.url}}" alt="" />
+              {%else%}
+              <img src="{%static 'images/empty_user.jpg''%}" alt="" />
+            {%endif%}
             </div>
             <div>
               <p class="username">username</p>
@@ -54,20 +58,6 @@
             <button class="logout-btn">logout</button>
           </div>
 
-          <!--Suggestion-Card-->
-
-          <p class="suggestion-text">Suggestions For you</p>
-
-          <div class="suggestion-card">
-            <div class="suggestion-pic">
-              <img src="assets/images/2.jpg" alt="" />
-            </div>
-            <div>
-              <p class="username">username</p>
-              <p class="sub-text">sub-text</p>
-            </div>
-            <button class="follow-btn">follow</button>
-          </div>
         </div>
       </div>
     </section>

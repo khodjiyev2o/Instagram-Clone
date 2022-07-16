@@ -1,4 +1,5 @@
 from select import select
+from urllib import request
 from django.shortcuts import render
 from django.urls import reverse
 from .models import Stream,Follow,Post
@@ -49,14 +50,20 @@ def profile(request,pk):
     return render(request,'main/profile.html',{'context':context})
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(UpdateView):  
     model = User
     template_name = 'main/edit_profile.html'
    
+    
+    
+   
+     
+
     form_class = ProfileForm
     def get_success_url(self, **kwargs):
     # obj = form.instance or self.object
         return reverse("profile", kwargs={'pk': self.object.id})
     
     
+
    
