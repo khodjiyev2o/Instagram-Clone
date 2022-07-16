@@ -32,7 +32,23 @@ class FollowCreateApiView(generics.CreateAPIView):
     queryset =  Follow.objects.all()
     serializer_class = FollowSerializer
 
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        following_id = data['id']
+        follower_id = data['user']
+        action = data['action']
+        
+        following = User.objects.get(id=following_id)
+        follower_id = User.objects.get(id=follower_id)
+        
 
+        if action == "follow":
+            Follow.objects.create(following=following,follower=follower_id)
+        else:
+           Follow.objects.get(following=following,follower=follower_id).delete()
+        
+
+        return Response("hi")
 
 
 class PostCreateApiView(generics.CreateAPIView):

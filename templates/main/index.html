@@ -129,10 +129,10 @@
             <div>
               <a href="{%url 'profile' suggestion.id %}">
               <p class="username">{{suggestion.username}}</p>
-              <p class="sub-text">{{suggestion.email}}</p>
+              
             </a>
             </div>
-            <button class="follow-btn">follow</button>
+            <button class="follow-btn" data-id="{{suggestion.id}}" style="color:#0d6efd!important;" data-action="follow">follow</button>
           </div>
           {%endfor%}
         </div>
@@ -157,6 +157,61 @@
 
         });
       });
+      //getting follow button 
+      var follows = document.getElementsByClassName('follow-btn')
+
+      for(i = 0; i < follows.length; i++) {
+        console.log(follows[i].innerHTML)
+       
+	      follows[i].addEventListener('click', function(){
+        follow_id=this.dataset.id
+        action = this.dataset.action
+        if(this.innerHTML=="follow"){
+          this.innerHTML="unfollow"
+          this.style.color = "black"
+          this.dataset.action = "unfollow"
+
+        }else{
+          this.innerHTML="follow"
+          this.style.color = "#0d6efd"
+          this.dataset.action = "follow"
+        }
+        
+        
+        console.log(follow_id)
+        user='{{request.user.id}}'
+        followupdate(follow_id,user,action);
+        
+
+      })
+      }
+
+      function followupdate(id,user,action){
+	    
+      console.log(user + " started following  " +  follow_id)
+		  var url = 'api/follow/create/'
+
+		fetch(url, {
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json',
+				'X-CSRFToken':csrftoken,
+			},
+			body:JSON.stringify({'id':follow_id,'user':user,'action':action})
+		})
+		.then((response) => {
+                if (!response.ok) {
+                    // error processing
+                    throw 'Error';
+                }
+                return response.json()
+            })
+		.then((data) => {
+		    
+		});
+}
+
+
 
         //getting liked or disliked info from post
         var likes = document.getElementsByClassName('icon fas fa-heart')
