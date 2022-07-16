@@ -13,6 +13,9 @@
             {%for friend in friends%}
             {%if friend.following == request.user%}
             <div class="status-card">
+              <a href="{%url 'profile' friend.following.id %}">
+
+            
               <div class="profile-pic">
                 {%if request.user.image%}
                 <img src="{{request.user.image.url}}" alt="" />
@@ -20,18 +23,20 @@
                 <img src="{% static  'images/empty_user.jpg' %}" alt="" />
                 {%endif%}
               </div>
+            </a>
               <p class="username">You</p>
             </div>
 
             {%else%}
             <div class="status-card">
+              <a href="{%url 'profile' friend.following.id %}">
               <div class="profile-pic">
                 {%if friend.following.image%}
                 <img src="{{friend.following.image.url}}" alt="" />
                 {%else%}
                 <img src="{%static 'images/empty_user.jpg'%}" alt="" />
                 {%endif%}
-                
+              </a>
 
               </div>
               <p class="username">{{friend.following}}</p>
