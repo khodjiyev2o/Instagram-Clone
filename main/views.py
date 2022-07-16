@@ -9,6 +9,11 @@ def main(request):
     user = request.user
     streams = Stream.objects.filter(user=user).select_related('post','following')
     friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
+    all_objs = []
+    for stream in streams:
+        objs = stream.post.likers.values()
+        all_objs.append(objs)
+    print(all_objs)
     ids = []
     for friend in friends:
         id = friend.following.id

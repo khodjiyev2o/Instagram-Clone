@@ -14,34 +14,20 @@ class Post(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User,on_delete = models.CASCADE)
     description = models.CharField(max_length=150,blank=False)
-    likes = models.IntegerField(default=0)
+    likers = models.ManyToManyField(User,blank=True,related_name='likers')
 
     def __str__(self):
         return str(f"This is a post by {self.owner} having {self.likes}     likes")
-
-    def add_like(sender,instance,created,**kwargs):
-        obj = instance
-        post = instance.post
-        if created:
-            liked_post = Post.objects.get(id=post.id)
-            liked_post.likes+=1
-            liked_post.save()
+    @property
+    def likes(self):
+        return self.likers.count()
+        
             
             
 
-class Likes(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_likes")
     
 
-    def __str__(self):
-        return str(f"{self.user} liked this {self.post} post")
-
-    class Meta:
-        unique_together = (
-            ('user', 'post'),
-        )
-     
+    
    
 
 
@@ -137,4 +123,3 @@ post_save.connect(Follow.follow_yourself,sender=User)
 
 
 #Like SIGNALS
-post_save.connect(Post.add_like,sender=Likes)

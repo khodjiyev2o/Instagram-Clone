@@ -29,11 +29,11 @@
           <input type="text" class="search-box" placeholder="search.." />
         </form>
         <div class="nav-items">
-          <a href="{%url 'main' %}"><i class="icon fas fa-home"></i></a>
-          <a href="{%url 'new_post'  request.user.id  %}"><i class="icon fas fa-plus"></i></a>
-          <i class="icon fas fa-heart"></i>
+          <a href="{%url 'main' %}"><i class="icon fas fa-home nav_link active"></i></a>
+          <a href="{%url 'new_post'  request.user.id  %}"><i class="icon fas fa-plus nav_link "></i></a>
+          <i class="icon fas fa-heart nav_link " ></i>
           <div class="icon user-profile">
-            <a href="{%url 'profile'  request.user.id  %}"> <i class="fas fa-user"></i></a>
+            <a href="{%url 'profile'  request.user.id  %}"> <i class="fas fa-user nav_link "></i></a>
           </div>
         </div>
       </div>
@@ -43,6 +43,25 @@
 
   {%endblock%}
 
-
+  <script type="text/javascript">
+    var user = '{{request.user}}'
+    function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+</script>
+<script src="{% static 'js/script.js' %}"></script>r
 </body>
 </html>

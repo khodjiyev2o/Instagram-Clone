@@ -35,3 +35,32 @@ class PostDetailApiView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = 'pk'
+
+
+class PostUpdateApiView(generics.UpdateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        id = data['id']
+        color = data['color']
+        user = data['user']
+
+        post = Post.objects.get(id=id)
+
+        user = User.objects.get(id=id)
+
+        
+
+        if color == "red":
+            post.likers.add(user)
+            post.save()
+        elif color != "red":
+            post.likers.remove(user)
+            post.save()
+        
+
+        return Response("hi")
+
+    
