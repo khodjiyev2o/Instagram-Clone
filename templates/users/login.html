@@ -36,14 +36,19 @@
               <div class="logo">
                 <img src="{% static 'images/logo.png' %}" alt="" class="logo-img" />
               </div>
-              <form action="" class="login-form" id="login-form">
-                <p class="text-center alert-danger" id="error_message"></p>
+              <form action="" method="POST" class="login-form" id="login-form">
+                {%csrf_token%}
+                <p class="text-center alert-danger" id="error_message">
+                  {%if forms.errors%}
+                  Please enter correct credentials!
+                  {%endif%}
+                </p>
                 <div class="form-group">
                   <div class="login-input">
                     <input
                       type="text"
-                      name="email"
-                      placeholder="Type your email..."
+                      name="username"
+                      placeholder="Type your username..."
                       required
                     />
                   </div>
@@ -164,28 +169,15 @@
         }
       }
 
-      function verifyForm() {
-        var password = document.getElementById("password").value;
-        var error_message = document.getElementById("error_message");
-
-        if (password.length < 6) {
-          error_message.innerHTML = "Password is to short";
-          return false;
-        }
-
-        return true;
-      }
+      
+      
 
       document.getElementById("dark-btn").addEventListener("click", (e) => {
         e.preventDefault();
         changeMode();
       });
 
-      document.getElementById("login-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        verifyForm();
-      });
+    
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>

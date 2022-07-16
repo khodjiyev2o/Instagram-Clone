@@ -17,6 +17,7 @@
     />
   </head>
   <body>
+    
     <div class="container">
       <div class="main-container">
         <div class="main-content">
@@ -35,51 +36,35 @@
               <div class="logo">
                 <img src="{% static 'images/logo.png' %}" alt="" class="logo-img" />
               </div>
-              <form action="" class="login-form" id="signup-form">
-                <p class="text-center alert-danger" id="error_message"></p>
+              <form action="" class="login-form" method="POST" id="signup-form">
+                {%csrf_token%}
+                <p class="text-center alert-danger" id="error_message">
+                  {%if forms.errors%}
+                  Please enter correct credentials!
+                  {%endif%}
+                </p>
                 <div class="form-group">
                   <div class="login-input">
-                    <input
-                      type="text"
-                      name="email"
-                      placeholder="Type your email..."
-                      required
-                    />
+                   {{forms.email}}
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="login-input">
-                    <input
-                      type="text"
-                      name="username"
-                      placeholder="Type your username..."
-                      required
-                    />
+                    {{forms.username}}
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="login-input">
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Type your password..."
-                      required
-                    />
+                    {{forms.password1}}
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="login-input">
-                    <input
-                      type="password"
-                      name="password_confirm"
-                      id="password_confirm"
-                      placeholder="Type your password again..."
-                      required
-                    />
+                    {{forms.password2}}
+                    
                   </div>
                 </div>
 
@@ -195,29 +180,8 @@
 
       /* Sign Up */
 
-      function verifyForm() {
-        var password = document.getElementById("password").value;
-        var password_confirm =
-          document.getElementById("password_confirm").value;
-        var error_message = document.getElementById("error_message");
+     
 
-        if (password.length < 6) {
-          error_message.innerHTML = "Password is to short";
-          return false;
-        }
-
-        if (password != password_confirm) {
-          error_message.innerHTML = "Password don't match";
-          return false;
-        }
-        return true;
-      }
-
-      document.getElementById("signup-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        verifyForm();
-      });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
