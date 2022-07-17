@@ -7,15 +7,24 @@ import uuid
 from django.db.models.signals import post_save, post_delete,pre_delete
 # Create your models here.
 
+   
+class Comment(models.Model):
+    commenter =  models.ForeignKey(User,on_delete=models.CASCADE)
+    text = models.CharField(max_length=150)
+   
+
+    def __str__(self):
+        return self.text
 
 
+  
 class Post(models.Model):
     image = models.ImageField(upload_to='posts',blank = True, null = True)
     posted = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User,on_delete = models.CASCADE)
     description = models.CharField(max_length=150,blank=False)
     likers = models.ManyToManyField(User,blank=True,related_name='likers',null=True)
-
+    comments= models.ManyToManyField(Comment,blank=True)
     def __str__(self):
         return str(f"This is a post by {self.owner} having {self.likes}     likes")
     @property
@@ -23,9 +32,8 @@ class Post(models.Model):
         return self.likers.count()
         
             
-    
+ 
 
-    
 
     
    
