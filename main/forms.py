@@ -1,17 +1,8 @@
-from .models import Post,Comment
+from .models import Post
 from django import forms
 from users.models import User
 
-class CommmentForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['text'].widget.attrs['class'] = 'comment-box'
-        self.fields['text'].widget.attrs['placeholder'] = 'Add a comment'
 
-    class Meta:
-        model = Comment                                                                        
-        fields = ['text']
-        
 class PostForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):

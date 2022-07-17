@@ -8,4 +8,5 @@ urlpatterns = [
     path('posts',views.PostApiView.as_view(),name='posts'),
     path('posts/<int:pk>',views.PostDetailApiView.as_view(),name='post_detail'),
     path('follow/create/',views.FollowCreateApiView.as_view(),name='follow_create'),
+    path('comment/create/',views.CommentCreateApiView.as_view(),name='comment_create'),
 ]

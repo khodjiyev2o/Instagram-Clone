@@ -89,6 +89,7 @@
             </p>
               {%endfor%}
             </p>
+
             <div class="comment-wrapper">
                 
                 {%if request.user.image%}
@@ -101,12 +102,14 @@
                 type="text"
                 class="comment-box"
                 placeholder="Add a comment"
+                id="post{{stream.post.id}}"
               />
-              <button class="comment-btn">post</button>
+              <button class="comment-btn" data-id="{{stream.post.id}}">post</button>
             </div>
           </div>
-          {%endfor%}  
-        </div>
+          {%endfor%} 
+        </div> 
+      </div>
        
 
         <div class="right-col">
@@ -159,12 +162,62 @@
           </div>
           {%endfor%}
         </div>
-      </div>
+      
     </section>
 
     <!-- script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
     <script>
+
+
+
+
+      const postCoomment = document.querySelectorAll('.comment-btn');
+      for(i = 0; i < postCoomment.length; i++) {
+	      postCoomment[i].addEventListener('click', function(){
+        postid=this.dataset.id
+        text = document.getElementById("post"+postid).value;
+        user='{{request.user.id}}'
+        
+        commentupdate(postid,text,user);
+        
+      })
+      }
+
+
+      //fetch comments
+
+      function commentupdate(postid,text,user){
+	    
+      
+		  var url = 'api/comment/create/'
+
+		fetch(url, {
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json',
+				'X-CSRFToken':csrftoken,
+			},
+			body:JSON.stringify({'postid':postid,'user':user,'text':text})
+		})
+		.then((response) => {
+                if (!response.ok) {
+                    // error processing
+                    throw 'Error';
+                }
+                return response.json()
+            })
+		.then((data) => {
+              console.log(data)
+        });
+    }
+
+
+
+
+
+
+
       //changing like button accordingly to red or none
       const likeButtons = document.querySelectorAll("#like-button");
    

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.models import User
-from main.models import Post,Follow
+from main.models import Post,Follow,Comment
 
 
 
@@ -14,6 +14,10 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id','posted','owner','description','likes']
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = "__all__"
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:

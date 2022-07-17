@@ -5,7 +5,7 @@ from django.urls import reverse
 from .models import Stream,Follow,Post
 from users.models import User
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from .forms import PostForm,ProfileForm,CommmentForm
+from .forms import PostForm,ProfileForm
 # Create your views here.
 def main(request):
         user = request.user

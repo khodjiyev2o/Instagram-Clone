@@ -2,9 +2,9 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from users.models import User
-from main.models import Post,Follow
+from main.models import Post,Follow,Comment
 
-from .serializers import UserSerializer,PostSerializer,FollowSerializer
+from .serializers import UserSerializer,PostSerializer,FollowSerializer,CommentSerializer
 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView
@@ -25,7 +25,28 @@ def usersapi(request):
     serializer = UserSerializer(queryest,many=True)
     return Response(serializer.data)
 
+class CommentCreateApiView(generics.CreateAPIView):
+    queryset =  Comment.objects.all()
+    serializer_class = CommentSerializer
 
+
+
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        
+        postID = data['postid']
+        user = data['user']
+        text = data['text']
+        
+        post = Post.objects.get(id=postID)
+        user = User.objects.get(id=user)
+
+        comment = Comment.objects.create(commenter=user,text=text)
+        post.comments.add(comment)
+        post.save()
+
+        return Response("hi")
+        
 
 
 class FollowCreateApiView(generics.CreateAPIView):
