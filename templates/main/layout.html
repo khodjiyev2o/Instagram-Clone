@@ -30,11 +30,13 @@
         </form>
         <div class="nav-items">
           {% with url_name=request.resolver_match.url_name %}
+          
           <a href="{%url 'main' %}"><i class="icon fas fa-home " {% if url_name == "main" %}style="color:#0d6efd!important;"{% endif %}></i></a>
           <a href="{%url 'new_post'  request.user.id  %}"><i class="icon fas fa-plus  " {% if url_name == "new_post" %}style="color:#0d6efd!important;"{% endif %}></i></a>
           <i class="icon fas fa-heart nav_link " {% if url_name == "likes" %}style="color:#0d6efd!important;"{% endif %}></i>
           <div class="icon user-profile">
             <a href="{%url 'profile'  request.user.id  %}"> <i class="fas fa-user  "{% if url_name == "profile" %}style="color:#0d6efd!important;"{% endif %}></i></a>
+
             {%endwith %}
           </div>
         </div>

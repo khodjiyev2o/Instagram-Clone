@@ -39,7 +39,7 @@
               <form action="" method="POST" class="login-form" id="login-form">
                 {%csrf_token%}
                 <p class="text-center alert-danger" id="error_message">
-                  {%if forms.errors%}
+                  {%if messages%}
                   Please enter correct credentials!
                   {%endif%}
                 </p>

@@ -8,18 +8,18 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import PostForm,ProfileForm
 # Create your views here.
 def main(request):
-    user = request.user
-    streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers').order_by('-date')
-    friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
     
-    ids = []
-    for friend in friends:
-        id = friend.following.id
-        ids.append(id)
-    suggestions = User.objects.all().exclude(id__in=ids)
-    return render(request,'main/index.html',{'streams':streams,'friends':friends,'suggestions':suggestions})
-
-
+        user = request.user
+        streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers').order_by('-date')
+        friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
+        
+        ids = []
+        for friend in friends:
+            id = friend.following.id
+            ids.append(id)
+        suggestions = User.objects.all().exclude(id__in=ids)
+        return render(request,'main/index.html',{'streams':streams,'friends':friends,'suggestions':suggestions})
+   
 class PostCreateView(CreateView):
     model = Post
     template_name = 'main/new_post.html'
