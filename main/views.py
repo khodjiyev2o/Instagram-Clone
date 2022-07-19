@@ -96,25 +96,43 @@ def no_user_new_post(request):
 
 
 def profile(request,pk):
-    user = User.objects.get(id=pk)
-    posts = Post.objects.filter(owner=user)
-    posts_count = user.post_set.all().count()
-    posts = Post.objects.filter(owner=user)
-    follows_count = Follow.objects.filter(following=user).count()
-    following_count = Follow.objects.filter(follower=user).count()
-    friends = Follow.objects.filter(follower=request.user).order_by('following').select_related('following')
-    ids = []
-    for friend in friends:
-            id = friend.following.id
-            ids.append(id)
-    context = {
-        'posts_count':posts_count,
-        'following_count':following_count,
-        'follows_count':follows_count,
-        'user':user,
-        'posts':posts,
-        'ids':ids,
-    }
+    if request.user.is_authenticated:
+        user = User.objects.get(id=pk)
+        posts = Post.objects.filter(owner=user)
+        posts_count = user.post_set.all().count()
+        posts = Post.objects.filter(owner=user)
+        follows_count = Follow.objects.filter(following=user).count()
+        following_count = Follow.objects.filter(follower=user).count()
+        friends = Follow.objects.filter(follower=request.user).order_by('following').select_related('following')
+        ids = []
+        for friend in friends:
+                id = friend.following.id
+                ids.append(id)
+        context = {
+            'posts_count':posts_count,
+            'following_count':following_count,
+            'follows_count':follows_count,
+            'user':user,
+            'posts':posts,
+            'ids':ids,
+        }
+    else:
+        user = User.objects.get(id=pk)
+        posts = Post.objects.filter(owner=user)
+        posts_count = user.post_set.all().count()
+        posts = Post.objects.filter(owner=user)
+        follows_count = Follow.objects.filter(following=user).count()
+        following_count = Follow.objects.filter(follower=user).count()
+       
+       
+        context = {
+            'posts_count':posts_count,
+            'following_count':following_count,
+            'follows_count':follows_count,
+            'user':user,
+            'posts':posts,
+            
+        }
     return render(request,'main/profile.html',{'context':context})
 
 
