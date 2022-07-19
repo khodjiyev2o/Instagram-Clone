@@ -25,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get('DEBUG')) == "1"
-ALLOWED_HOSTS = []
-if not DEBUG:
-    ALLOWED_HOSTS += [os.environ.get('ALLOWED_HOSTS')]
+DEBUG = True
+SECRET_KEY = "D5SAD54ASF24SA1F2SADF2FSA1F54ASD1FG45AS1G4AH"
+
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
