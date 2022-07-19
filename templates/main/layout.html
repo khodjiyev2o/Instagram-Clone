@@ -17,6 +17,24 @@
     />
   </head>
   <body>
+  {%if request.user.is_authenticated%}
+    
+  {%else%}
+  <div class="popup-window">
+    <button class="close-btn">
+      <i class="fas fa-times"></i>
+    </button>
+    <div class="popup-body">
+      <h1 class="popup-title">We advise  you to  register first!</h1></br>
+        <h3> So that , you   have full access to Instagram-Clone</h3></br>
+        <h6>PS: You can ignore this , if you want to simply browse the website</h6>
+        <a  href="{%url 'register' %}" type="submit" class="submit">Sign Up</a>
+      
+    </div>
+  </div>
+
+  {%endif%}
+
     <!-- navigation -->
     <nav class="navbar">
       <div class="nav-wrapper">
@@ -75,6 +93,20 @@
 		    return cookieValue;
 		}
 		var csrftoken = getCookie('csrftoken');
+    const popupWindow = document.querySelector(".popup-window");
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        popupWindow.classList.add("active");
+      }, 2000);
+    });
+
+    const closeWindow = document.querySelector(".close-btn");
+
+    closeWindow.addEventListener("click", () => {
+      popupWindow.classList.remove("active");
+    });
+
 </script>
 
 </body>

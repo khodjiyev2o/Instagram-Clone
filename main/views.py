@@ -5,7 +5,9 @@ from django.urls import reverse
 from .models import Stream,Follow,Post
 from users.models import User
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from .forms import PostForm,ProfileForm
+from .forms import PostForm,ProfileForm 
+from users.forms import RegistrationForm
+
 # Create your views here.
 def main(request):
     if request.user.is_authenticated:
@@ -20,11 +22,12 @@ def main(request):
         return render(request,'main/index.html',{'streams':streams,'friends':friends,'suggestions':suggestions})
 
     else:
+        forms = RegistrationForm()
         user = User.objects.get(id=1)
         streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers','post__comments').order_by('-date')
         friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
         suggestions = User.objects.all()
-        return render(request,'main/index.html',{'streams':streams,'suggestions':suggestions,'friends':friends})
+        return render(request,'main/index.html',{'streams':streams,'suggestions':suggestions,'friends':friends,'forms':forms})
    
 class PostCreateView(CreateView):
     model = Post
