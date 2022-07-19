@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import PostForm,ProfileForm
 # Create your views here.
 def main(request):
+    if request.user.is_authenticated:
         user = request.user
         streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers','post__comments').order_by('-date')
         friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
@@ -17,6 +18,13 @@ def main(request):
             ids.append(id)
         suggestions = User.objects.all().exclude(id__in=ids)
         return render(request,'main/index.html',{'streams':streams,'friends':friends,'suggestions':suggestions})
+
+    else:
+        user = User.objects.get(id=1)
+        streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers','post__comments').order_by('-date')
+        friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
+        suggestions = User.objects.all()
+        return render(request,'main/index.html',{'streams':streams,'suggestions':suggestions,'friends':friends})
    
 class PostCreateView(CreateView):
     model = Post
@@ -28,6 +36,9 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(PostCreateView, self).form_valid(form)
+
+def no_user_new_post(request):
+    return render(request,'main/no_user_new_post.html',{})
 
 
 def profile(request,pk):
@@ -46,6 +57,12 @@ def profile(request,pk):
         'posts':posts,
     }
     return render(request,'main/profile.html',{'context':context})
+
+
+
+def no_user_profile(request):
+    return render(request,'main/no_user_profile.html',{})
+
 
 
 class ProfileUpdateView(UpdateView):  

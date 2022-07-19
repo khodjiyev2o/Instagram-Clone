@@ -8,42 +8,52 @@
       <div class="wrapper">
         <div class="left-col">
           <!---STATUS-->
-          
+
           <div class="status-wrapper">
-            {%for friend in friends%}
-            {%if friend.following == request.user%}
-            <div class="status-card">
-              <a href="{%url 'profile' friend.following.id %}">
+            {%if request.user.is_authenticated%}
+              {%for friend in friends%}
+                {%if friend.following == request.user%}
+                  <div class="status-card">
+                    <a href="{%url 'profile' friend.following.id %}">
+                      <div class="profile-pic">
+                          {%if request.user.image%}
+                            <img src="{{request.user.image.url}}" alt="" />
+                          {%else%}
+                            <img src="{% static  'images/empty_user.jpg' %}" alt="" />
+                          {%endif%}
+                      </div>
+                    </a>
+                    <p class="username">You</p>
+                  </div>
 
-            
-              <div class="profile-pic">
-                {%if request.user.image%}
-                <img src="{{request.user.image.url}}" alt="" />
-                {%else%}
-                <img src="{% static  'images/empty_user.jpg' %}" alt="" />
-                {%endif%}
+
+              {%else%}
+              <div class="status-card">
+                <a href="{%url 'profile' friend.following.id %}">
+                  <div class="profile-pic">
+                    {%if friend.following.image%}
+                      <img src="{{friend.following.image.url}}" alt="" />
+                    {%else%}
+                      <img src="{%static 'images/empty_user.jpg'%}" alt="" />
+                    {%endif%}
+                </a>
+                  </div>
+                <p class="username">{{friend.following}}</p>
               </div>
-            </a>
-              <p class="username">You</p>
-            </div>
-
+              {%endif%}
+              {%endfor%}
             {%else%}
             <div class="status-card">
-              <a href="{%url 'profile' friend.following.id %}">
-              <div class="profile-pic">
-                {%if friend.following.image%}
-                <img src="{{friend.following.image.url}}" alt="" />
-                {%else%}
-                <img src="{%static 'images/empty_user.jpg'%}" alt="" />
-                {%endif%}
+              <a href="{%url 'no_user_profile' %}">
+                <div class="profile-pic">
+                      <img src="{% static  'images/empty_user.jpg' %}" alt="" />
+                </div>
               </a>
-
-              </div>
-              <p class="username">{{friend.following}}</p>
+              <p class="username">Anonymous User</p>
             </div>
             {%endif%}
-            {%endfor%}
-            
+
+
           </div>
 
           <!--POST-->
@@ -124,13 +134,25 @@
               {%endif%}
             </div>
             <div>
+              {%if request.user.is_authenticated%}
               <a href="{%url 'profile' request.user.id %}">
               <p class="username">{{request.user}}</p>
             
               <p class="sub-text">{{request.user.email}}</p>
-            </div>
+              </a>
+              {%else%}
+              
+              <a href="{%url 'no_user_profile'  %}">
+              <p class="username">Anonymous User</p>
+            
+              <p class="sub-text">anonymous@gmail.com</p>
 
-            </a>
+              </a>
+              {%endif%}
+
+
+            </div>
+            
             
              <a href="{%url 'logout' %}" class="logout-btn">
               <button  class="logout-btn">
