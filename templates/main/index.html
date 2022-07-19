@@ -264,13 +264,13 @@
 	      follows[i].addEventListener('click', function(){
         follow_id=this.dataset.id
         action = this.dataset.action
-        if(this.innerHTML=="follow"){
-          this.innerHTML="unfollow"
+        if(this.innerHTML=="Follow"){
+          this.innerHTML="Unfollow"
           this.style.color = "black"
           this.dataset.action = "unfollow"
 
         }else{
-          this.innerHTML="follow"
+          this.innerHTML="Follow"
           this.style.color = "#0d6efd"
           this.dataset.action = "follow"
         }
@@ -353,5 +353,11 @@
 }
 
 
+
+
+      
+      
+      
+      
     </script>
     {%endblock%}

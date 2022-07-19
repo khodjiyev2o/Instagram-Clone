@@ -7,6 +7,7 @@ from users.models import User
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import PostForm,ProfileForm 
 from users.forms import RegistrationForm
+from .filters import UserFilter
 
 # Create your views here.
 def main(request):
@@ -19,7 +20,17 @@ def main(request):
             id = friend.following.id
             ids.append(id)
         suggestions = User.objects.all().exclude(id__in=ids)
-        return render(request,'main/index.html',{'streams':streams,'friends':friends,'suggestions':suggestions})
+        users = User.objects.all()
+        myFilter = UserFilter(request.GET, queryset=users)
+        filtersObj = myFilter.qs
+        return render(request,'main/index.html',{
+            'streams':streams,
+            'friends':friends,
+            'suggestions':suggestions,
+            'filtersObj':filtersObj,
+            'myFilter': myFilter,
+            }
+            )
 
     else:
         forms = RegistrationForm()
@@ -27,8 +38,26 @@ def main(request):
         streams = Stream.objects.select_related('post','following').filter(user=user).prefetch_related('post__likers','post__comments').order_by('-date')
         friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
         suggestions = User.objects.all()
-        return render(request,'main/index.html',{'streams':streams,'suggestions':suggestions,'friends':friends,'forms':forms})
-   
+        users = User.objects.all()
+        myFilter = UserFilter(request.GET, queryset=users)
+        filtersObj = myFilter.qs
+        return render(request,'main/index.html',{
+            'streams':streams,
+            'suggestions':suggestions,
+            'friends':friends,
+            'forms':forms,
+            'filtersObj':filtersObj,
+            'myFilter':myFilter,
+            }
+            )
+def search(request):
+    users = User.objects.all()
+    myFilter = UserFilter(request.GET, queryset=users)
+    filtersObj = myFilter.qs
+    return render(request,'main/search.html',{
+        'filtersObj':filtersObj,
+        'myFilter':myFilter,
+    })
 class PostCreateView(CreateView):
     model = Post
     template_name = 'main/new_post.html'

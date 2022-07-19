@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:pk>/profile',views.profile,name='profile'),
     path('<int:pk>/edit_profile',views.ProfileUpdateView.as_view(),name='edit_profile'),
     path('anonymous_user/profile',views.no_user_profile,name='no_user_profile'),
+    path('search/',views.search,name='search')
 ]

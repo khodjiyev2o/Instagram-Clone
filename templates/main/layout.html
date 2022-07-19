@@ -43,8 +43,9 @@
           </a>
         
 
-        <form class="search-form">
-          <input type="text" class="search-box" placeholder="search.." />
+        <form class="search-form" action="{%url 'search'%}">
+         {{myFilter.form}}
+         
         </form>
         <div class="nav-items">
           {%if request.user.is_authenticated%}
@@ -107,6 +108,8 @@
       popupWindow.classList.remove("active");
     });
 
+
+    
 </script>
 
 </body>

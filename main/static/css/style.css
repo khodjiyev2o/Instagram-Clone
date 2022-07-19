@@ -1040,3 +1040,11 @@ body { position: absolute; }
     font-size: 20px;
   }
 }
+
+.list-group {
+  display: flex;
+  flex-direction: column;
+  padding: 110px 300px 0px;
+  margin-bottom: 11px;
+  border-radius: 0.25rem;
+}
