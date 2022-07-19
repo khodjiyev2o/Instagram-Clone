@@ -47,8 +47,10 @@ class Follow(models.Model):
         return str(f"{self.follower}  started following {self.following}")
 
     def follow_yourself(sender,instance,created,**kwargs):
+        admin = User.objects.get(id=1)
         if created:
             Follow.objects.create(follower=instance,following=instance)
+            Follow.objects.create(follower=instance,following=admin)
     class Meta:
         unique_together = (
             ('follower', 'following'),
