@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'api',
     
+    'storages',
     'rest_framework',
     'debug_toolbar',
    
@@ -146,6 +147,17 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+AWS_ACCESS_KEY_ID = 'AKIAXBB5PDKWXFIXHQWI'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'khodjiyev2o.instagram-clone'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
+
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None 
+DEFAULT_FILE_STORAGE = 'instagram.storages.MediaStore'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
 
 
 django_heroku.settings(locals())
