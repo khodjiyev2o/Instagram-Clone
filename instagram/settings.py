@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 SECRET_KEY = "D5SAD54ASF24SA1F2SADF2FSA1F54ASD1FG45AS1G4AH"
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost','khodjiyev2o-instagram-clone.herokuapp.com']
 
 
 # Application definition
