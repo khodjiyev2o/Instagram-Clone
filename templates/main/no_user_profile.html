@@ -6,11 +6,9 @@
       <div class="profile-container">
         <div class="profile">
           <div class="profile-image">
-            {%if context.user.image%}
-            <img src="{{context.user.image.url}}" alt="" />
-            {%else%}
+            
             <img src="{%static 'images/empty_user.jpg''%}" alt="" />
-            {%endif%}
+           
           </div>
           
           <div class="profile-user-settings">
@@ -23,7 +21,7 @@
             >
               <i class="fas fa-cog"></i>
             </button>
-            {%endif%}
+           
           </div>
          
           <div class="profile-stats">
@@ -48,26 +46,9 @@
     <main>
       <div class="profile-container">
         <div class="gallery">
-          {%if context.posts%}
-          {%for post in context.posts%}
-          <div class="gallery-item">
-            <img src="{{post.image.url}}" class="gallery-image" alt="" />
-            <div class="gallery-item-info">
-              <ul>
-                <li class="gallery-item-likes">
-                  <span class="hide-gallery-element">Likes:{{post.likes}}</span>
-                  <i class="fas fa-heart"></i>
-                </li>
-                <li class="gallery-item-comments">
-                  <span class="hide-gallery-element">Comments:</span>
-                  <i class="fas fa-comment"></i>
-                </li>
-              </ul>
-            </div>
-          </div>
-          {%endfor%}
           
-          {%else%}
+          
+          
             <div class="gallery-item">
               <img src="{% static 'images/no-photo.jpg' %}" style="
                 pointer-events: none;
@@ -79,7 +60,7 @@
                 display: block;
               "class="gallery-image" alt="" />
             </div>
-            {%endif%}
+           
 
             
           
