@@ -32,8 +32,13 @@
               <li><span class="profile-stat-count">{{context.follows_count}}</span> followers</li>
               <li><span class="profile-stat-count">{{context.following_count}}</span> following</li>
             </ul>
-
+            {%if not request.user == context.user%}
+            {%if request.user.id in context.ids%}
+            <button class="follow-btn-user-profile" style="color:#212529;background:#2125292e" data-id="{{context.user.id}}"  data-action="unfollow">Unfollow</button>
+            {%else%}
             <button class="follow-btn-user-profile" data-id="{{context.user.id}}"  data-action="follow">Follow</button>
+            {%endif%}
+            {%endif%}
           </div>
           <div class="profile-bio">
             {%if context.user.bio%}

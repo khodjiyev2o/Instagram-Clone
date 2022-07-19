@@ -51,12 +51,20 @@ def main(request):
             }
             )
 def search(request):
+    user = request.user
+    friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
+    ids = []
+    for friend in friends:
+            id = friend.following.id
+            ids.append(id)
+    
     users = User.objects.all()
     myFilter = UserFilter(request.GET, queryset=users)
     filtersObj = myFilter.qs
     return render(request,'main/search.html',{
         'filtersObj':filtersObj,
         'myFilter':myFilter,
+        'ids':ids,
     })
 class PostCreateView(CreateView):
     model = Post
@@ -80,13 +88,18 @@ def profile(request,pk):
     posts = Post.objects.filter(owner=user)
     follows_count = Follow.objects.filter(following=user).count()
     following_count = Follow.objects.filter(follower=user).count()
-   
+    friends = Follow.objects.filter(follower=request.user).order_by('following').select_related('following')
+    ids = []
+    for friend in friends:
+            id = friend.following.id
+            ids.append(id)
     context = {
         'posts_count':posts_count,
         'following_count':following_count,
         'follows_count':follows_count,
         'user':user,
         'posts':posts,
+        'ids':ids,
     }
     return render(request,'main/profile.html',{'context':context})
 
