@@ -51,21 +51,35 @@ def main(request):
             }
             )
 def search(request):
-    user = request.user
-    friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
-    ids = []
-    for friend in friends:
-            id = friend.following.id
-            ids.append(id)
-    
-    users = User.objects.all()
-    myFilter = UserFilter(request.GET, queryset=users)
-    filtersObj = myFilter.qs
-    return render(request,'main/search.html',{
-        'filtersObj':filtersObj,
-        'myFilter':myFilter,
-        'ids':ids,
-    })
+    if request.user.is_authenticated:
+        user = request.user
+        friends = Follow.objects.filter(follower=user).order_by('following').select_related('following')
+        ids = []
+        for friend in friends:
+                id = friend.following.id
+                ids.append(id)
+        
+        users = User.objects.all()
+        myFilter = UserFilter(request.GET, queryset=users)
+        filtersObj = myFilter.qs
+        return render(request,'main/search.html',{
+            'filtersObj':filtersObj,
+            'myFilter':myFilter,
+            'ids':ids,
+        })
+    else:
+        
+        
+       
+        
+        users = User.objects.all()
+        myFilter = UserFilter(request.GET, queryset=users)
+        filtersObj = myFilter.qs
+        return render(request,'main/search.html',{
+            'filtersObj':filtersObj,
+            'myFilter':myFilter,
+           
+        })
 class PostCreateView(CreateView):
     model = Post
     template_name = 'main/new_post.html'

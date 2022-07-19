@@ -16,11 +16,14 @@
             <span>{{user.bio}}</span>
           </div>
           <div class="search-result-item-btn">
-           
-            {%if request.user.id in ids%}
-            <button class="follow-btn" data-id="{{user.id}}" style="color:black;" data-action="unfollow">Unfollow</button>
+           {%if request.user.is_authenticated%}
+              {%if request.user.id in ids%}
+              <button class="follow-btn" data-id="{{user.id}}" style="color:black;" data-action="unfollow">Unfollow</button>
+              {%else%}
+              <button class="follow-btn" data-id="{{user.id}}" style="color:#0d6efd!important;" data-action="follow">Follow</button>
+              {%endif%}
             {%else%}
-            <button class="follow-btn" data-id="{{user.id}}" style="color:#0d6efd!important;" data-action="follow">Follow</button>
+              <button class="follow-btn" data-id="{{user.id}}" style="color:#0d6efd!important;" data-action="follow">Follow</button>
             {%endif%}
           </div>
         </li>
