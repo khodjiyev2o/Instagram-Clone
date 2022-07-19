@@ -1,10 +1,6 @@
-from asyncio.windows_events import NULL
-from distutils.command.upload import upload
-from this import d
 from django.db import models
 from users.models import User
-import uuid
-from django.db.models.signals import post_save, post_delete,pre_delete
+from django.db.models.signals import post_save, post_delete
 # Create your models here.
 
    
