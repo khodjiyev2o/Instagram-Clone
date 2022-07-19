@@ -154,7 +154,7 @@ INTERNAL_IPS = [
 
 AWS_ACCESS_KEY_ID = 'AKIAXBB5PDKWXFIXHQWI'
 AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'khodjiyev2o.instagram-clone'
+AWS_STORAGE_BUCKET_NAME = 'khodjiyev2o-instagram-clone'
 AWS_S3_REGION_NAME = 'ap-northeast-2'
 
 
