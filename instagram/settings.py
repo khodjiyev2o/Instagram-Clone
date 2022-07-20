@@ -141,6 +141,8 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
+
+django_heroku.settings(locals())
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -157,11 +159,14 @@ AWS_SECRET_ACCESS_KEY = 'QNXEnMtw2/UqB8OBvLCXzRq+EXtvAO91R6JldZtv'
 AWS_STORAGE_BUCKET_NAME = 'khodjiyev2o-instagram-clone'
 AWS_S3_REGION_NAME = 'ap-northeast-2'
 
-
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None 
-DEFAULT_FILE_STORAGE = 'instagram.storages.MediaStore'
+
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
 
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 
-django_heroku.settings(locals())
+MEDIAFILES_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
