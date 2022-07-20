@@ -39,7 +39,7 @@ body { position: absolute; }
 }
 
 .popup-window.active {
-  top: 82%;
+  top: 50%;
   left: 44%;
   transform: translate(-50%, -50%) scale(1);
   z-index: 9999;
