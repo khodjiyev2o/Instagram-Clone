@@ -26,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-SECRET_KEY = "D5SAD54ASF24SA1F2SADF2FSA1F54ASD1FG45AS1G4AH"
 
-ALLOWED_HOSTS = ['localhost','khodjiyev2o-instagram-clone.herokuapp.com']
+DEBUG = str(os.environ.get('DEBUG')) == "1"
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -154,19 +154,27 @@ INTERNAL_IPS = [
     # ...
 ]
 
-AWS_ACCESS_KEY_ID = 'AKIAXBB5PDKWUEHZNFRW'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'khodjiyev2o-instagram-clone'
-AWS_S3_REGION_NAME = 'ap-northeast-2'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None 
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN')
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
 
-STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 
-MEDIAFILES_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+STATICFILES_STORAGE = os.environ.get('STATICFILES_STORAGE')
+
+STATICFILES_LOCATION =  os.environ.get('STATICFILES_LOCATION')
+
+
+MEDIAFILES_LOCATION = os.environ.get('MEDIAFILES_LOCATION')
+
+
+
+
+
+AWS_S3_FILE_OVERWRITE = os.environ.get('AWS_S3_FILE_OVERWRITE')
+AWS_DEFAULT_ACL = os.environ.get('AWS_DEFAULT_ACL')
+DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE')
+STATICFILES_STORAGE = os.environ.get('STATICFILES_STORAGE')
